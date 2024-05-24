@@ -1,9 +1,11 @@
-var canvas = document.getElementById("canvas").getContext('2d', { willReadFrequently: true });
+var button = document.getElementById('scan-button');
 
-try {
-var button = document.getElementById("scan-button");
-button.addEventListener("click", () => {
+const myInput = document.getElementById('scan-buttom')
+const myModal = document.getElementById('exampleModal')
+
+myModal.addEventListener('shown.bs.modal', event => {
 	const $resultados = document.querySelector("#resultado");
+	console.log("modal")
 	Quagga.init({
 		inputStream: {
 			constraints: {
@@ -15,7 +17,8 @@ button.addEventListener("click", () => {
 			target: document.querySelector('#contenedor'), // Pasar el elemento del DOM
 		},
 		decoder: {
-			readers: ["code_128_reader"]
+			readers: ["code_128_reader"],
+			multiple: false
 		},
 	}, function (err) {
 		if (err) {
@@ -34,17 +37,18 @@ button.addEventListener("click", () => {
     		.then(json => { 
 				console.log(Object.keys(json))
 				console.log('json: ', json)
-				// let table = document.getElementById('table').insertRow(0)
-				// let col1 = table.insertCell(0)
-				// let col2 = table.insertCell(1)
+				console.log("row")
+				let table = document.getElementById('table').insertRow(1)
+				let col1 = table.insertCell(0)
+				let col2 = table.insertCell(1)
 
-				// col1.innerHTML = json.name
-				// col2.innerHTML = json.price
+				col1.innerHTML = json.name
+				col2.innerHTML = json.price
 			})
     		.catch(err => console.log('Solicitud fallida', err)); // Capturar errores
-		
-		// Imprimimos todo el data para que puedas depurar
-		console.log(data);
+
+		Quagga.offDetected();
+		Quagga.stop();
 	});
 
 
@@ -75,7 +79,3 @@ button.addEventListener("click", () => {
 		}
 	});
 });
-
-} catch (err) {
-	console.log("salio el errooor")
-}
