@@ -1,11 +1,7 @@
-var button = document.getElementById('scan-button');
-
-const myInput = document.getElementById('scan-buttom')
 const myModal = document.getElementById('exampleModal')
+const modal = new bootstrap.Modal('#exampleModal');
 
-myModal.addEventListener('shown.bs.modal', event => {
-	const $resultados = document.querySelector("#resultado");
-	console.log("modal")
+myModal.addEventListener('shown.bs.modal', () => {
 	Quagga.init({
 		inputStream: {
 			constraints: {
@@ -41,13 +37,16 @@ myModal.addEventListener('shown.bs.modal', event => {
 				let table = document.getElementById('table').insertRow(1)
 				let col1 = table.insertCell(0)
 				let col2 = table.insertCell(1)
+				let col3 = table.insertCell(2)
 
 				col1.innerHTML = json.name
 				col2.innerHTML = json.price
+				col3.innerHTML = json.price * 0.80
 			})
     		.catch(err => console.log('Solicitud fallida', err)); // Capturar errores
 
 		Quagga.offDetected();
+		modal.hide();
 		Quagga.stop();
 	});
 
