@@ -1,5 +1,12 @@
-const myModal = document.getElementById('exampleModal')
-const modal = new bootstrap.Modal('#exampleModal');
+var codes
+fetch('codes.json')
+    .then(res=>res.text())
+    .then(datos=>{
+        codes = JSON.parse(datos)
+    })
+
+const myModal = document.getElementById('escanerModal')
+const modal = new bootstrap.Modal('#escanerModal');
 
 myModal.addEventListener('shown.bs.modal', () => {
 	Quagga.init({
@@ -26,25 +33,7 @@ myModal.addEventListener('shown.bs.modal', () => {
 	});
 
 	Quagga.onDetected((data) => {
-		var terminalToken = "7787f36f0bcbe048ad0a12801";
-		var url = `https://terminalbff.duxsoftware.com.ar/productInfo?terminalToken=${terminalToken}&productId=${data.codeResult.code}`;
-		fetch(url)
-    		.then(response => response.json())  // convertir a json
-    		.then(json => { 
-				console.log(Object.keys(json))
-				console.log('json: ', json)
-				console.log("row")
-				let table = document.getElementById('table').insertRow(1)
-				let col1 = table.insertCell(0)
-				let col2 = table.insertCell(1)
-				let col3 = table.insertCell(2)
-
-				col1.innerHTML = json.name
-				col2.innerHTML = json.price
-				col3.innerHTML = json.price * 0.80
-			})
-    		.catch(err => console.log('Solicitud fallida', err)); // Capturar errores
-
+		requestAPI(data.codeResult.code)
 		Quagga.offDetected();
 		modal.hide();
 		Quagga.stop();
@@ -78,3 +67,40 @@ myModal.addEventListener('shown.bs.modal', () => {
 		}
 	});
 });
+
+const codeModal = new bootstrap.Modal('#codeModal');
+const codeButtom = document.getElementById('code-button')
+
+codeButtom.addEventListener('click', () => {
+	console.log('Hola')
+	const codigo = document.getElementById('codigo')
+	console.log(codigo.value in codes)
+	if (!(codigo.value in codes)){
+		console.log('Codigo no existe')
+		codigo.value = ''
+	} else {
+		requestAPI(codes[codigo.value])
+		codeModal.hide()
+	}
+})
+
+
+function requestAPI(code){
+	var terminalToken = "7787f36f0bcbe048ad0a12801";
+	var url = `https://terminalbff.duxsoftware.com.ar/productInfo?terminalToken=${terminalToken}&productId=${code}`;
+	fetch(url)
+		.then(response => response.json())  // convertir a json
+		.then(json => { 
+			console.log(Object.keys(json))
+			console.log('json: ', json)
+			console.log("row")
+			let table = document.getElementById('table').insertRow(1)
+			let col1 = table.insertCell(0)
+			let col2 = table.insertCell(1)
+			let col3 = table.insertCell(2)
+			col1.innerHTML = json.name
+			col2.innerHTML = json.price
+			col3.innerHTML = json.price * 0.80
+		})
+		.catch(err => console.log('Solicitud fallida', err));
+}
