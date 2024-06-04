@@ -72,7 +72,7 @@ codeButtom.addEventListener('click', () => {
 	const codigo = document.getElementById('code')
 	console.log(codigo.value in codes)
 	if (!(codigo.value in codes)){
-		console.log('Codigo no existe')
+		appendAlert('El codigo ingresado no existe.', 'danger')
 		codigo.value = ''
 	} else {
 		requestAPI(codes[codigo.value])
@@ -100,4 +100,20 @@ function requestAPI(code){
 			col3.innerHTML = json.price * 0.80
 		})
 		.catch(err => console.log('Solicitud fallida', err));
+}
+
+
+const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+const appendAlert = (message, type) => {
+	if (alertPlaceholder.innerHTML == '') {
+		const wrapper = document.createElement('div')
+		  wrapper.innerHTML = [
+			`<div class="alert alert-${type}" role="alert">`,
+			`   <div>${message}</div>`,
+			'</div>'
+		  ].join('')
+		  alertPlaceholder.append(wrapper)
+	} else {
+		console.log("asd")
+	}
 }

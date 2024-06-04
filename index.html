@@ -79,8 +79,14 @@
             <h5 class="modal-title">Ingresar Codigo</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body mx-auto">
-            <div class="btn-group-vertical ml-4 mt-4" role="group" aria-label="Basic example">
+
+        <div class="modal-body mx-auto">
+
+            <!-- Alerta de codigo erroneo -->
+            <div id="liveAlertPlaceholder"></div>
+
+            <!-- numpad y input -->
+            <div class="btn-group-vertical ml-4" role="group" aria-label="Basic example">
               <div class="btn-group">
                   <input class="text-center form-control-lg mb-2 bs-primary-border-subtle" disabled id="code">
               </div>
