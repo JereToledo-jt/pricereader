@@ -68,9 +68,7 @@ const codeModal = new bootstrap.Modal('#codeModal');
 const codeButtom = document.getElementById('code-button')
 
 codeButtom.addEventListener('click', () => {
-	console.log('Hola')
 	const codigo = document.getElementById('code')
-	console.log(codigo.value in codes)
 	if (!(codigo.value in codes)){
 		appendAlert('El codigo ingresado no existe.', 'danger')
 		codigo.value = ''
@@ -112,8 +110,6 @@ const appendAlert = (message, type) => {
 			`   <div>${message}</div>`,
 			'</div>'
 		  ].join('')
-		  alertPlaceholder.append(wrapper)
-	} else {
-		console.log("asd")
+		  alertPlaceholder.append(wrapper) 
 	}
 }
