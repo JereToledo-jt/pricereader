@@ -39,10 +39,6 @@ myModal.addEventListener('shown.bs.modal', () => {
 		Quagga.stop();
 	});
 
-
-
-
-	// mostrar las lineas
 	Quagga.onProcessed(function (result) {
 		var drawingCtx = Quagga.canvas.ctx.overlay,
 			drawingCanvas = Quagga.canvas.dom.overlay;
@@ -73,7 +69,7 @@ const codeButtom = document.getElementById('code-button')
 
 codeButtom.addEventListener('click', () => {
 	console.log('Hola')
-	const codigo = document.getElementById('codigo')
+	const codigo = document.getElementById('code')
 	console.log(codigo.value in codes)
 	if (!(codigo.value in codes)){
 		console.log('Codigo no existe')
@@ -81,6 +77,7 @@ codeButtom.addEventListener('click', () => {
 	} else {
 		requestAPI(codes[codigo.value])
 		codeModal.hide()
+		codigo.value = ''
 	}
 })
 
